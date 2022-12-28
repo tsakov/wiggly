@@ -10,8 +10,8 @@ import java.util.List;
 
 public class BezierCurve {
 
-    List<Point> controlPoints = new ArrayList<Point>();
-    List<Point> evaluatedCurvePoints = new ArrayList<Point>();
+    private List<Point> controlPoints = new ArrayList<Point>();
+    private List<Point> evaluatedCurvePoints = new ArrayList<Point>();
 
     public List<Point> getControlPoints() {
         return controlPoints;

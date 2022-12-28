@@ -21,34 +21,34 @@ class BezierCurveBox extends Component {
     public void paint(Graphics g) {
         super.paint(g);
 
-        if (curve.controlPoints.isEmpty()) {
+        if (curve.getControlPoints().isEmpty()) {
             return;
         }
 
         curve.evaluate();
 
-        Point p1 = curve.controlPoints.get(0), p2;
+        Point p1 = curve.getControlPoints().get(0), p2;
 
         g.setColor(Color.lightGray);
-        for (int i = 1; i < curve.controlPoints.size(); i++) {
-            p2 = curve.controlPoints.get(i);
+        for (int i = 1; i < curve.getControlPoints().size(); i++) {
+            p2 = curve.getControlPoints().get(i);
             g.drawLine((int) p1.x, (int) p1.y, (int) p2.x, (int) p2.y);
             p1 = p2;
         }
 
-        if (!curve.evaluatedCurvePoints.isEmpty()) {
+        if (!curve.getEvaluatedCurvePoints().isEmpty()) {
             g.setColor(Color.red);
-            p1 = curve.controlPoints.get(0);
+            p1 = curve.getControlPoints().get(0);
 
-            for (int i = 1; i < curve.evaluatedCurvePoints.size(); i++) {
-                p2 = curve.evaluatedCurvePoints.get(i);
+            for (int i = 1; i < curve.getEvaluatedCurvePoints().size(); i++) {
+                p2 = curve.getEvaluatedCurvePoints().get(i);
                 g.drawLine((int) p1.x, (int) p1.y, (int) p2.x, (int) p2.y);
                 p1 = p2;
             }
         }
 
         g.setColor(Color.black);
-        for(Point p : curve.controlPoints)
+        for(Point p : curve.getControlPoints())
             g.fillOval((int) p.x - 5, (int) p.y - 5, 10, 10);
 
         if (!curve.ensure()) {

@@ -57,8 +57,8 @@ public class Main {
                         originalImageBox.image = ImageIO.read(chosen);
                         originalImageBox.repaint();
                         distortedImageBox.image = new BufferedImage(originalImageBox.image.getWidth(), originalImageBox.image.getHeight(), BufferedImage.TYPE_INT_RGB);
-                        if (!curveBox.curve.evaluatedCurvePoints.isEmpty()) {
-                            ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.evaluatedCurvePoints);
+                        if (!curveBox.curve.getEvaluatedCurvePoints().isEmpty()) {
+                            ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.getEvaluatedCurvePoints());
                         }
 
                         mainFrame.repaint();
@@ -150,16 +150,16 @@ public class Main {
             }
 
             public void mousePressed(MouseEvent e) {
-                for (Point p : curveBox.curve.controlPoints) {
+                for (Point p : curveBox.curve.getControlPoints()) {
                     if (p.toAwtPoint().distance(e.getPoint()) <= 5) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             curveBox.current = p;
                         } else {
-                            curveBox.curve.controlPoints.remove(p);
+                            curveBox.curve.getControlPoints().remove(p);
                             curveBox.repaint();
                         }
                         if (originalImageBox.image != null && curveBox.curve.ensure()) {
-                            ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.evaluatedCurvePoints);
+                            ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.getEvaluatedCurvePoints());
                             //ImageDistorter.blur(distortedImageBox.image);
                             distortedImageBox.repaint();
                             mainFrame.pack();
@@ -168,10 +168,10 @@ public class Main {
                     }
                 }
 
-                curveBox.curve.controlPoints.add(new Point(e.getPoint()));
+                curveBox.curve.getControlPoints().add(new Point(e.getPoint()));
                 curveBox.repaint();
                 if (originalImageBox.image != null && curveBox.curve.ensure()) {
-                    ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.evaluatedCurvePoints);
+                    ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.getEvaluatedCurvePoints());
                     //ImageDistorter.blur(distortedImageBox.image);
                     distortedImageBox.repaint();
                     mainFrame.pack();
@@ -201,7 +201,7 @@ public class Main {
                     curveBox.repaint();
 
                     if (originalImageBox.image != null && curveBox.curve.ensure()) {
-                        ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.evaluatedCurvePoints);
+                        ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.getEvaluatedCurvePoints());
                         //ImageDistorter.blur(distortedImageBox.image);
                         distortedImageBox.repaint();
                         mainFrame.pack();
