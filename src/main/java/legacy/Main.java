@@ -7,22 +7,13 @@
  */
 package legacy;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class Main {
 
@@ -32,7 +23,6 @@ public class Main {
     private ImageBox distortedImageBox = new ImageBox(null);
 
     public void draw() {
-        // основният прозорец
         final JFrame mainFrame = new JFrame("Distortion Mirror");
         mainFrame.setVisible(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,7 +83,7 @@ public class Main {
 
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane.showConfirmDialog(imageFileChooser, "Do you really want to exit?", "Exit", JOptionPane.YES_NO_OPTION)
-                        == JOptionPane.YES_OPTION) {
+                    == JOptionPane.YES_OPTION) {
                     System.exit(0);
                 }
             }
@@ -103,8 +93,8 @@ public class Main {
 
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(mainFrame, "Тази програма бе създадена от Евгени Цаков, "
-                        + "не защото изгаряше от желание\nда я напише, а защото му бе възложена като курсов проект.\n"
-                        + "P.S. Всички права запазени \u00ae", "За програмата...", JOptionPane.INFORMATION_MESSAGE);
+                    + "не защото изгаряше от желание\nда я напише, а защото му бе възложена като курсов проект.\n"
+                    + "P.S. Всички права запазени \u00ae", "За програмата...", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -112,8 +102,8 @@ public class Main {
 
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(mainFrame, "Точките могат да се местят с левия бутон на мишката\n"
-                        + "и да се трият с десния. Нови точки се добавят\n"
-                        + "с левия бутон.", "Помощ!", JOptionPane.INFORMATION_MESSAGE);
+                    + "и да се трият с десния. Нови точки се добавят\n"
+                    + "с левия бутон.", "Помощ!", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -131,7 +121,6 @@ public class Main {
         mainFrame.pack();
 
 
-        // прозорецът на кривата:
         JFrame curveFrame = new JFrame("Curve");
         curveFrame.setSize(300, 300);
         curveFrame.setVisible(true);
