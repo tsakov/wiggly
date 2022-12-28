@@ -45,7 +45,7 @@ public class Main {
         JButton openButton = new JButton("Open Image");
         JButton saveButton = new JButton("Save Image");
         JButton exitButton = new JButton("Exit");
-        JButton abotButton = new JButton("About");
+        JButton aboutButton = new JButton("About");
 
         openButton.addActionListener(new ActionListener() {
 
@@ -99,7 +99,7 @@ public class Main {
             }
         });
 
-        abotButton.addActionListener(new ActionListener() {
+        aboutButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(mainFrame, "Тази програма бе създадена от Евгени Цаков, "
@@ -120,7 +120,7 @@ public class Main {
         buttonsPanel.add(helpButton);
         buttonsPanel.add(openButton);
         buttonsPanel.add(saveButton);
-        buttonsPanel.add(abotButton);
+        buttonsPanel.add(aboutButton);
         buttonsPanel.add(exitButton);
         imagesPanel.add(originalImageBox, BorderLayout.LINE_START);
         imagesPanel.add(distortedImageBox, BorderLayout.LINE_END);
