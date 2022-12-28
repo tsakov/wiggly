@@ -10,7 +10,8 @@ package legacy;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -131,76 +132,7 @@ public class Main {
 
         curveFrame.add(curveBox);
 
-        curveBox.addMouseListener(new MouseListener() {
-
-            public void mouseClicked(MouseEvent e) {
-                mainFrame.repaint();
-                mainFrame.pack();
-            }
-
-            public void mousePressed(MouseEvent e) {
-                for (Point p : curveBox.curve.getControlPoints()) {
-                    if (p.toAwtPoint().distance(e.getPoint()) <= 5) {
-                        if (e.getButton() == MouseEvent.BUTTON1) {
-                            curveBox.current = p;
-                        } else {
-                            curveBox.curve.getControlPoints().remove(p);
-                            curveBox.repaint();
-                        }
-                        if (originalImageBox.image != null && curveBox.curve.ensure()) {
-                            ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.getEvaluatedCurvePoints());
-                            //ImageDistorter.blur(distortedImageBox.image);
-                            distortedImageBox.repaint();
-                            mainFrame.pack();
-                        }
-                        return;
-                    }
-                }
-
-                curveBox.curve.getControlPoints().add(new Point(e.getPoint()));
-                curveBox.repaint();
-                if (originalImageBox.image != null && curveBox.curve.ensure()) {
-                    ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.getEvaluatedCurvePoints());
-                    //ImageDistorter.blur(distortedImageBox.image);
-                    distortedImageBox.repaint();
-                    mainFrame.pack();
-                }
-            }
-
-            public void mouseReleased(MouseEvent e) {
-                curveBox.current = null;
-                mainFrame.repaint();
-                mainFrame.pack();
-            }
-
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            public void mouseExited(MouseEvent e) {
-                curveBox.current = null;
-            }
-        });
-
-
-        curveBox.addMouseMotionListener(new MouseMotionListener() {
-
-            public void mouseDragged(MouseEvent e) {
-                if (curveBox.current != null) {
-                    curveBox.current.setLocation(e.getPoint());
-                    curveBox.repaint();
-
-                    if (originalImageBox.image != null && curveBox.curve.ensure()) {
-                        ImageDistorter.distort(originalImageBox.image, distortedImageBox, curveBox.curve.getEvaluatedCurvePoints());
-                        //ImageDistorter.blur(distortedImageBox.image);
-                        distortedImageBox.repaint();
-                        mainFrame.pack();
-                    }
-                }
-            }
-
-            public void mouseMoved(MouseEvent e) {
-            }
-        });
+        curveBox.addMouseListeners(mainFrame, originalImageBox, distortedImageBox);
     }
 
     public static void main(String[] args) throws IOException {

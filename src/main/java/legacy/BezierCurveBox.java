@@ -7,7 +7,11 @@
  */
 package legacy;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 class BezierCurveBox extends Component {
 
@@ -33,6 +37,78 @@ class BezierCurveBox extends Component {
         if (!curve.ensure()) {
             paintWarning(g);
         }
+    }
+
+    public void addMouseListeners(JFrame mainFrame, ImageBox originalImageBox, ImageBox distortedImageBox) {
+        this.addMouseListener(new MouseListener() {
+
+            public void mouseClicked(MouseEvent e) {
+                mainFrame.repaint();
+                mainFrame.pack();
+            }
+
+            public void mousePressed(MouseEvent e) {
+                for (Point p : curve.getControlPoints()) {
+                    if (p.toAwtPoint().distance(e.getPoint()) <= 5) {
+                        if (e.getButton() == MouseEvent.BUTTON1) {
+                            current = p;
+                        } else {
+                            curve.getControlPoints().remove(p);
+                            repaint();
+                        }
+                        if (originalImageBox.image != null && curve.ensure()) {
+                            ImageDistorter.distort(originalImageBox.image, distortedImageBox, curve.getEvaluatedCurvePoints());
+                            //ImageDistorter.blur(distortedImageBox.image);
+                            distortedImageBox.repaint();
+                            mainFrame.pack();
+                        }
+                        return;
+                    }
+                }
+
+                curve.getControlPoints().add(new Point(e.getPoint()));
+                repaint();
+                if (originalImageBox.image != null && curve.ensure()) {
+                    ImageDistorter.distort(originalImageBox.image, distortedImageBox, curve.getEvaluatedCurvePoints());
+                    //ImageDistorter.blur(distortedImageBox.image);
+                    distortedImageBox.repaint();
+                    mainFrame.pack();
+                }
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                current = null;
+                mainFrame.repaint();
+                mainFrame.pack();
+            }
+
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            public void mouseExited(MouseEvent e) {
+                current = null;
+            }
+        });
+
+        this.addMouseMotionListener(new MouseMotionListener() {
+
+            public void mouseDragged(MouseEvent e) {
+                if (current != null) {
+                    current.setLocation(e.getPoint());
+                    repaint();
+
+                    if (originalImageBox.image != null && curve.ensure()) {
+                        ImageDistorter.distort(originalImageBox.image, distortedImageBox, curve.getEvaluatedCurvePoints());
+                        //ImageDistorter.blur(distortedImageBox.image);
+                        distortedImageBox.repaint();
+                        mainFrame.pack();
+                    }
+                }
+            }
+
+            public void mouseMoved(MouseEvent e) {
+            }
+        });
     }
 
     private void paintControlPoints(Graphics g) {
