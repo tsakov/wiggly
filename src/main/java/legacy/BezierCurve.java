@@ -1,0 +1,38 @@
+/*
+ * Автор: Евгени Цаков
+ */
+
+
+package legacy;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BezierCurve {
+
+    List<Point> controlPoints = new ArrayList<Point>();
+    List<Point> evaluatedCurvePoints = new ArrayList<Point>();
+
+    void evaluate() {
+        evaluatedCurvePoints.clear();
+        Point[] points = new Point[4];
+
+        for (int i = 0; i < controlPoints.size() - 3; i += 3) {
+            controlPoints.subList(i, i + 4).toArray(points);
+            for (float t = 0; t <= 1; t += 0.01) {
+                evaluatedCurvePoints.add(BezierCurveEvaluator.evaluate(points, t));
+            }
+        }
+    }
+
+    // проверка дали кривата е монотонна по y
+    boolean ensure() {
+        for (int i = 0; i < evaluatedCurvePoints.size() - 1; i++) {
+            if (evaluatedCurvePoints.get(i).y >= evaluatedCurvePoints.get(i+1).y) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
